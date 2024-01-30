@@ -1,0 +1,42 @@
+---
+title: "Air quality"
+format: html
+editor: visual
+---
+
+# Setup
+
+```{r}
+#| label: load-packages
+#| message: false
+
+library(tidyverse)
+
+dch_2022 <- read_csv(here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
+
+aqi_levels <- tribble(
+  ~aqi_min, ~aqi_max, ~color,    ~level,
+  0,        50,       "#D8EEDA", "Good",
+  51,       100,      "#F1E7D4", "Moderate",
+  101,      150,      "#F8E4D8", "Unhealthy for sensitive groups",
+  151,      200,      "#FEE2E1", "Unhealthy",
+  201,      300,      "#F4E3F7", "Very unhealthy",
+  301,      400,      "#F9D0D4", "Hazardous"
+)
+```
+
+# Visualizing Durham AQI
+
+```{r}
+#| label: label-me-1
+
+# add code here
+```
+
+# Another visualization of Durham AQI
+
+```{r}
+#| label: label-me-2
+
+# add code here
+```
