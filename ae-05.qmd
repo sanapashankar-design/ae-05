@@ -12,7 +12,12 @@ editor: visual
 
 library(tidyverse)
 
-dch_2022 <- read_csv(here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
+dch_2022 <- read_csv(
+  here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
+  na = c(".", "")
+) |>
+  janitor::clean_names() |>
+  mutate(date = mdy(date))
 
 aqi_levels <- tribble(
   ~aqi_min, ~aqi_max, ~color,    ~level,
@@ -29,14 +34,10 @@ aqi_levels <- tribble(
 
 ```{r}
 #| label: label-me-1
+#| fig-width: 8
+#| fig-asp: 0.4
 
-# add code here
-```
-
-# Another visualization of Durham AQI
-
-```{r}
-#| label: label-me-2
-
-# add code here
+dch_2022 |>
+  ggplot(aes(x = date, y = aqi_value, group = 1)) +
+  geom_line(linewidth = 0.8, show.legend = FALSE)
 ```
