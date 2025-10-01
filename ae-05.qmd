@@ -30,6 +30,11 @@ aqi_levels <- tribble(
 )
 ```
 
+```{r}
+#bizarre plot 
+ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) + geom_line()
+```
+
 # Visualizing Durham AQI
 
 ```{r}
@@ -37,7 +42,26 @@ aqi_levels <- tribble(
 #| fig-width: 8
 #| fig-asp: 0.4
 
-dch_2022 |>
+dch_2022 %>%
   ggplot(aes(x = date, y = aqi_value, group = 1)) +
   geom_line(linewidth = 0.8, show.legend = FALSE)
+```
+
+```{r}
+#label: recreating visualization
+
+ggplot() + 
+  geom_rect(data = aqi_levels, aes(ymin = aqi_min, ymax = aqi_max, fill = color), xmin = -Inf, xmax = Inf,) +
+  geom_text(data = aqi_levels, aes(x = as.Date("2023-02-28"), y = (aqi_max + aqi_min)/2, label = level), hjust = "inward", size = 6, color = "white", fontface = "bold") +
+  geom_line(data = dch_2022, aes(x = date, y = aqi_value, group = 1), linewidth = 0.8) +
+  scale_y_continuous(limits = c(0,400)) +
+  scale_fill_identity() +
+  scale_x_continuous(breaks = as.Date(c("2022-01-01", "2022-04-01", "2022-07-01", "2022-10-01","2023-01-01", "2023-03-01")), labels = c("Jan\n 2022", "Apr", "Jul", "Oct", "Jan \n2023", "")) + 
+  labs(x = "", 
+       y = "AQI", 
+       title = "Ozone and PM2.5 Daily AQI Values", 
+       subtitle = "Durham-Chape Hill, NC", 
+       caption = "Source: EPA Daily Air Quality Tracker") +
+  theme_minimal()
+  
 ```
